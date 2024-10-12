@@ -7,7 +7,7 @@ function App() {
   const [to, setTo] = useState(0);
 
   const [fromCurrency, setFromCurrency] = useState('usd')
-  const [toCurrency, setToCurrency] = useState('npr')
+  const [toCurrency, setToCurrency] = useState('inr')
 
 
   const currencyInfo = useCurrencyInfo(fromCurrency)
@@ -15,8 +15,14 @@ function App() {
   const options = Object.keys(currencyInfo)
 
   const convert = () => {
-    setTo(from*currencyInfo[toCurrency])
+    setTo((from*currencyInfo[toCurrency]).toFixed(2))
   }
+
+  const swap = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+  }
+ 
 
   return (
     <>
@@ -26,11 +32,16 @@ function App() {
 
           <div className='text-3xl font-bold '>Currency Converter</div>
 
-          <Input label={'From'} amount={from} currencyType={fromCurrency} setAmount={setFrom} amountChangeDisable={false} />
+          <Input label={'From'} amount={from} currencyType={fromCurrency} setAmount={setFrom} amountChangeDisable={false} options={options} setCurrencyType={setFromCurrency} />
 
-          <button className='bg-blue-500 rounded-lg w-1/5 py-1 text-white text-lg'>Swap</button>
+          <button 
+          className='bg-blue-500 rounded-lg w-1/5 py-1 text-white text-lg'
+          onClick={swap}
+          >
+            Swap
+          </button>
 
-          <Input label={'To'} amount={to} currencyType={toCurrency} amountChangeDisable={true} />
+          <Input label={'To'} amount={to} currencyType={toCurrency} amountChangeDisable={true} options={options} setCurrencyType={setToCurrency} />
           
           <button 
           onClick={convert}
@@ -38,11 +49,6 @@ function App() {
 
 
         </div>
-
-
-
-
-
 
       </div>
     </>
