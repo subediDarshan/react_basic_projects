@@ -1,17 +1,18 @@
 import React from 'react'
 import { useState } from 'react'
-import { useTodo } from '../contexts/index'
+import {useDispatch} from 'react-redux'
+import { addTodo } from '../features/todoSlice'
 
 function InputForm() {
 
   const [todoTitle, setTodoTitle] = useState("")
 
-  const {addTodo} = useTodo()
+  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if(todoTitle == "") return;
-    addTodo(todoTitle)
+    dispatch(addTodo({title: todoTitle}))
     setTodoTitle("")
   }
 
